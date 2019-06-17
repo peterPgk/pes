@@ -1,11 +1,17 @@
-###Install
-- Populate proper data for connect to the MYSQL in .env file in project root.
+###Installation instructions
+
+- Run composer install to install all dependencies.
+- Copy `.env.example` as `.env` where to store all sensitive information.
+- Create empty database, and populate proper data in `.env` for connecting to MYSQL.
 - in Console, run 
 
     ```php artisan migrate --seed```
     
   for creating all necessary tables and seeding some data in the database
-
+ - Run 
+ 
+    ```php artisan key:generate``` for generation of encryption key
+-
 
 ###Packages
 - Spatie  [LaravelPermissions](https://github.com/spatie/laravel-permission) package. Very powerful package for managing roles and permissions. Here I am using roles via permissions.

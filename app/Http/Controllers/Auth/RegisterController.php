@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -72,31 +73,35 @@ class RegisterController extends Controller
             'password' => ['required', 'min:6', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'confirmed'],
             'date_of_birth' => ['nullable', 'date', 'before:'. Carbon::now()->subYears(10)->toDateString()],
             'in_probation' => 'sometimes|in:'. implode(',', $this->checkboxAllowedValues),
-            'role' => 'required|exists:roles,id'
+            'role' => 'required|exists:roles,name'
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
+	/**
+	 * Create a new user instance after a valid registration.
+	 *
+	 * @param  array $data
+	 *
+	 * @return mixed
+	 * @throws \Throwable
+	 */
     protected function create(array $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'address' => $data['address'],
-            'phone' => $data['phone'], //Format phone before insert it in the database?
-            'email' => $data['email'],
-            'employee_id' => $data['employee_id'],
-            'password' => Hash::make($data['password']),
-            'date_of_birth' => $data['date_of_birth'],
-            'in_probation' => (bool)(isset($data['in_probation']) && in_array($data['in_probation'], $this->checkboxAllowedValues))
-        ]);
+    	return DB::transaction(function () use ($data) {
+		    $user = User::create([
+			    'name' => $data['name'],
+			    'address' => $data['address'],
+			    'phone' => $data['phone'], //Format phone before insert it in the database?
+			    'email' => $data['email'],
+			    'employee_id' => $data['employee_id'],
+			    'password' => Hash::make($data['password']),
+			    'date_of_birth' => $data['date_of_birth'],
+			    'in_probation' => (bool)(isset($data['in_probation']) && in_array($data['in_probation'], $this->checkboxAllowedValues))
+		    ]);
 
-        $user->assignRole(Str::lower($data['role']));
+		    $user->assignRole(Str::lower($data['role']));
 
-        return $user;
+		    return $user;
+	    });
     }
 }

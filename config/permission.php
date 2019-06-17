@@ -128,7 +128,7 @@ return [
     ],
 
     'roles' => [
-        'user' => 'user',
+        'staff member' => 'staff member',
         'manager' => 'manager',
     ]
 ];
