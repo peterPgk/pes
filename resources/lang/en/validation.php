@@ -116,6 +116,7 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'phone' => 'The :attribute field contains an invalid number.',
 
     /*
     |--------------------------------------------------------------------------
@@ -129,9 +130,9 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        'password' => [
+            'regex' => 'to register in PES, password must contain at least one number and both uppercase and lowercase letters.'
+        ]
     ],
 
     /*
