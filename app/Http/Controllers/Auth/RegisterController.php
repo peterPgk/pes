@@ -44,7 +44,7 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
-    protected $checkboxAllowedValues = [1, '1', 'on', true];
+//    protected $checkboxAllowedValues = [1, '1', 'on', true];
 
     /**
      * Create a new controller instance.
@@ -64,17 +64,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|string|min:3|max:255',
-            'address' => 'nullable|string|min:3|max:255',
-            'phone' => 'nullable|phone:GB', //TODO: Provide custom country field, ana attach it with address field
-            'email' => 'required|string|email|max:255|unique:users',
-            'employee_id' => 'nullable|unique:users|alpha_num',
-            'password' => ['required', 'min:6', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'confirmed'],
-            'date_of_birth' => ['nullable', 'date', 'before:'. Carbon::now()->subYears(10)->toDateString()],
-            'in_probation' => 'sometimes|in:'. implode(',', $this->checkboxAllowedValues),
-            'role' => 'required|exists:roles,name'
-        ]);
+        return Validator::make($data, User::rules());
     }
 
 	/**
@@ -96,7 +86,7 @@ class RegisterController extends Controller
 			    'employee_id' => $data['employee_id'],
 			    'password' => Hash::make($data['password']),
 			    'date_of_birth' => $data['date_of_birth'],
-			    'in_probation' => (bool)(isset($data['in_probation']) && in_array($data['in_probation'], $this->checkboxAllowedValues))
+			    'in_probation' => (bool)(isset($data['in_probation']) && in_array($data['in_probation'], config('validation.checkbox_allowed_values')))
 		    ]);
 
 		    $user->assignRole(Str::lower($data['role']));

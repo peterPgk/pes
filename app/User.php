@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,4 +39,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+	public static function rules(): array
+	{
+		return [
+			'name' => 'required|string|min:3|max:255',
+			'address' => 'nullable|string|min:3|max:255',
+			'phone' => 'nullable|phone:GB', //TODO: Provide custom country field, ana attach it with address field
+			'email' => 'required|string|email|max:255|unique:users',
+			'employee_id' => 'nullable|unique:users|alpha_num',
+			'password' => ['required', 'min:6', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 'confirmed'],
+			'date_of_birth' => ['nullable', 'date', 'before:'. Carbon::now()->subYears(10)->toDateString()],
+			'in_probation' => 'sometimes|in:'. implode(',', config('validation.checkbox_allowed_values')),
+			'role' => 'required|exists:roles,name'
+		];
+	}
 }

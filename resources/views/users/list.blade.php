@@ -3,6 +3,12 @@
 @section('content')
 
     <div class="container">
+        <div class="row">
+
+            <div class="col">
+                <a class="btn btn-primary float-right" href="{{ route('users.create') }}">New user</a>
+            </div>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <ul class="list-group">
