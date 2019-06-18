@@ -55,6 +55,17 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @role('manager')
+                                    <a class="dropdown-item" href="{{ route('users.index') }}">
+                                        {{ __('All users') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('users.create') }}">
+                                        {{ __('New user') }}
+                                    </a>
+                                    @endrole
+                                    <a class="dropdown-item" href="{{ route('users.edit', ['user' => Auth::user()]) }}">
+                                        {{ __('My Profile') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -73,6 +84,11 @@
         </nav>
 
         <main class="py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    @include('flash::message')
+                </div>
+            </div>
             @yield('content')
         </main>
     </div>

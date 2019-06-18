@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Str;
@@ -44,8 +43,6 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
-//    protected $checkboxAllowedValues = [1, '1', 'on', true];
-
     /**
      * Create a new controller instance.
      *
@@ -53,7 +50,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+//        $this->middleware('guest');
     }
 
     /**
@@ -84,9 +81,9 @@ class RegisterController extends Controller
 			    'phone' => $data['phone'], //Format phone before insert it in the database?
 			    'email' => $data['email'],
 			    'employee_id' => $data['employee_id'],
-			    'password' => Hash::make($data['password']),
+			    'password' => $data['password'],
 			    'date_of_birth' => $data['date_of_birth'],
-			    'in_probation' => (bool)(isset($data['in_probation']) && in_array($data['in_probation'], config('validation.checkbox_allowed_values')))
+			    'in_probation' => isset($data['in_probation'])
 		    ]);
 
 		    $user->assignRole(Str::lower($data['role']));

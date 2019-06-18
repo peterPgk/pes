@@ -16,6 +16,7 @@
 ###Packages
 - Spatie  [LaravelPermissions](https://github.com/spatie/laravel-permission) package. Very powerful package for managing roles and permissions. Here I am using roles via permissions.
 - [Laravel-Phone](https://github.com/spatie/laravel-permission) package for handling phone validation and display.
+- [laracasts/flash](https://github.com/laracasts/flash) for basic session flash messages.
 
 ###Extra info
 We are using build in Basic Auth functionality in Laravel, little tweaking it.

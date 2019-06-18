@@ -3,9 +3,9 @@
 @section('content')
 
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center mb-2">
 
-            <div class="col">
+            <div class="col-md-8">
                 <a class="btn btn-primary float-right" href="{{ route('users.create') }}">New user</a>
             </div>
         </div>
@@ -15,7 +15,7 @@
                     @foreach($users as $user)
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-9">
                                     <div>
                                         {{ $user->name }} |
                                         {{ $user->email }} |
@@ -26,8 +26,13 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
-                                    <a class="btn btn-primary float-right" href="{{ route('users.show', ['user' => $user->id]) }}">Edit</a>
+                                <div class="col-md-3">
+                                    <form method="POST" action="{{ route('users.destroy', ['user' => $user]) }}" novalidate>
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-primary float-right mr-1" >Delete</button>
+                                    </form>
+                                    <a class="btn btn-primary float-right mr-1" href="{{ route('users.edit', ['user' => $user]) }}">Edit</a>
                                 </div>
                             </div>
                         </li>

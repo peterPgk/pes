@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\TransformRequestByRole;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -60,6 +61,11 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        //Add this to have ability to protect routes
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        //We limit this user to be able to edit only his profile, and only to certain fields
+        'limitEditing' => TransformRequestByRole::class
     ];
 
     /**

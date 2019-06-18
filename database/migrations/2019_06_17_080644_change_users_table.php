@@ -19,8 +19,8 @@ class ChangeUsersTable extends Migration
             $table->string('phone')->nullable()->after('email');
             $table->text('address')->nullable()->after('phone');
             $table->string('employee_id')->nullable()->after('email')->unique();
-            $table->timestamp('date_of_birth')->nullable()->after('password');
-            $table->tinyInteger('in_probation')->unsigned()->after('date_of_birth')->index();
+            $table->date('date_of_birth')->nullable()->after('password');
+            $table->tinyInteger('in_probation')->unsigned()->after('date_of_birth')->default(0);
         });
     }
 

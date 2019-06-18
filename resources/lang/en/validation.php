@@ -131,7 +131,7 @@ return [
 
     'custom' => [
         'password' => [
-            'regex' => 'to register in PES, password must contain at least one number and both uppercase and lowercase letters.'
+            'regex' => 'To register in PES, password must contain at least one number and both uppercase and lowercase letters.'
         ]
     ],
 

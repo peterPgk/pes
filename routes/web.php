@@ -25,4 +25,13 @@ Route::post('register', 'Auth\RegisterController@register');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/users', 'UserController');
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'role:manager'], function () {
+        Route::get('/users', 'UserController@index')->name('users.index');
+        Route::get('/users/create', 'UserController@create')->name('users.create');
+        Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
+    });
+
+    Route::put('/users/{user}', 'UserController@update')->name('users.update')->middleware('limitEditing:staff member');
+    Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');
+});
