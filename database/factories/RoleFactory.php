@@ -17,20 +17,9 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Role::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-	    'employee_id' => $faker->name,
-	    'phone' => $faker->phoneNumber,
-	    'address' => $faker->address,
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-	    'date_of_birth' => $faker->date(),
-	    'in_probation' => rand(0, 1),
-        'remember_token' => Str::random(10),
+	    'guard_name' => 'web'
     ];
 });
-
-//$factory->afterCreating(App\User::class, function ($user, $faker) {
-//	$user->roles()->save(factory(Role::class)->make());
-//});

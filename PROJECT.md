@@ -23,3 +23,10 @@ We are using build in Basic Auth functionality in Laravel, little tweaking it.
 For instance email verifications and confirmations are disabled.
 
 In order to make things as suppose to be, I made new migration for changing users table structure instead of editing existing one (came with Auth functionality).
+
+Limitation for the staff member to be able to edit only particular fields is implemented with `TranformRequestByRole` middleware.
+
+We use ViewComposer `(App\Http\Views\Composers\RoleComposer)` to serve all available roles to some views `(App\Providers\ViewServiceProvider)`
+
+###Tests
+Laravel uses real database for running tests. Usually, this is in_memory `sqlite` database, for better performance

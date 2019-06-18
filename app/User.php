@@ -97,21 +97,13 @@ class User extends Authenticatable
      * Accessor when we want user role.
      * Spatie plugin uses names instead of ids, so we need name
      *
+     * We suppose that each user can have only one role
+     *
      * @return string
      */
     public function getRoleAttribute()
     {
         return $this->roles->first()->name;
-	}
-
-    /**
-     * In_probation mutator
-     *
-     * @param $value
-     */
-    public function setInProbationAttribute($value)
-    {
-        $this->attributes['in_probation'] = (bool)in_array($value, config('validation.checkbox_allowed_values'));
 	}
 
     /**

@@ -27,12 +27,7 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <form method="POST" action="{{ route('users.destroy', ['user' => $user]) }}" novalidate>
-                                        @method('DELETE')
-                                        @csrf
-                                        <button class="btn btn-primary float-right mr-1" >Delete</button>
-                                    </form>
-                                    <a class="btn btn-primary float-right mr-1" href="{{ route('users.edit', ['user' => $user]) }}">Edit</a>
+                                    <a class="btn btn-primary float-right" href="{{ route('users.edit', ['user' => $user]) }}">Edit</a>
                                 </div>
                             </div>
                         </li>

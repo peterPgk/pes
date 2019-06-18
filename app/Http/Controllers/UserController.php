@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use DB;
 use Illuminate\Http\Request;
-use Spatie\Permission\Exceptions\UnauthorizedException;
-use Spatie\Permission\Models\Role;
-use Str;
 
 class UserController extends Controller
 {
@@ -30,34 +26,26 @@ class UserController extends Controller
      */
     public function create()
     {
-        //This will use Registration process instead ou this controller store method
-        return view('auth.register');
+        return view('users.create');
     }
 
-//    /**
-//     * Store a newly created resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request $request
-//     * @return \Illuminate\Http\Response
-//     * @throws \Throwable
-//     */
-//    public function store(Request $request)
-//    {
-//        $data = $request->validate(User::rules());
-//
-//        return User::addWithRole($data);
-//    }
-
     /**
-     * Display the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  User  $user
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Throwable
      */
-//    public function show(User $user)
-//    {
-//        return view('users.show', compact('user'));
-//    }
+    public function store(Request $request)
+    {
+        $data = $request->validate(User::rules());
+
+        User::addWithRole($data);
+
+        return redirect()->route('users.index');
+
+
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -88,10 +76,12 @@ class UserController extends Controller
 
         //Need to change some rules, because we make update, not insert
         $rules = array_merge(User::rules(), $new_rules);
+
         //Validator will filter all provided data, and return only validated one
         $data = $request->validate($rules);
+
         //Handle checkbox
-        $data['in_probation'] = $request->has('in_probation');
+        $data['in_probation'] = $request->has('in_probation') && $request->get('in_probation');
 
         $user =  \DB::transaction(function () use ($user, $data) {
             $user->update($data);
@@ -100,7 +90,11 @@ class UserController extends Controller
             return $user;
         });
 
-        return view('users.edit', compact('user'));
+	    flash('The '. $user->name . ' was edited successfully')->success();
+
+		return auth()->user()->hasRole('manager')
+			? redirect()->route('users.index')
+			: redirect()->route('users.edit', compact('user'));
     }
 
     /**

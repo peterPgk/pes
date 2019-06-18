@@ -25,7 +25,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            ['users.edit', 'auth.register'],
+            ['users.edit', 'users.create'],
             'App\Http\Views\Composers\RoleComposer'
         );
     }

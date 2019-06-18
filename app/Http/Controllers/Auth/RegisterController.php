@@ -28,14 +28,6 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    public function showRegistrationForm()
-    {
-        //Fetch all available roles form database
-        $roles = Role::all();
-
-        return view('auth.register', compact('roles'));
-    }
-
     /**
      * Where to redirect users after registration.
      *
@@ -50,7 +42,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-//        $this->middleware('guest');
+        $this->middleware('guest');
     }
 
     /**

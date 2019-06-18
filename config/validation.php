@@ -8,6 +8,6 @@
 
 return [
 	'checkbox_allowed_values' => [
-		1, '1', 'on', true
+		1, '1', 'on', true, false,
 	]
 ];
