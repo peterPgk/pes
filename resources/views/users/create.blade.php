@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">{{ __('New user') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('users.store') }}" novalidate>
@@ -68,6 +68,7 @@
                                        required
                                        autocomplete="phone"
                                        autofocus
+                                       placeholder="valid GB phone"
                                 >
 
                                 @error('phone')

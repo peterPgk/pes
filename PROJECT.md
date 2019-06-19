@@ -1,14 +1,15 @@
 ###Installation instructions
 
 - Run `composer install` to install all dependencies.
-- Copy `.env.example` as `.env` where to store all sensitive information.
+- Copy `.env.example` as `.env` where to store all sensitive information (default `.env` file is included).
 - Create empty database (by default=pes), and populate proper data in `.env` file in Database section to be able to connect to MySQL server.
 - In Console, run 
 
     ```php artisan migrate --seed```
     
   to create all necessary tables and seeding some data in the database. By default roles `manager` and `staff member` are created, and
-  and two users with these roles. 
+  and two users with these roles.
+  The `sql.dump` file is also included in the root of the project.
   The credentials can be checked in `.env` file under User information or in `UsersSeeder` class in `database\seeds` folder.
 - Run 
  
@@ -37,7 +38,7 @@ In order to make things in proper way, I made new migration for changing users t
 
 Limitation for the staff member to be able to edit only particular fields is implemented with `TranformRequestByRole` middleware.
 
-We use ViewComposer `(App\Http\Views\Composers\RoleComposer)` to serve all available roles to some views `(App\Providers\ViewServiceProvider)`
+Available Roles are served to the views with help of ViewComposer `(App\Http\Views\Composers\RoleComposer)` `(App\Providers\ViewServiceProvider)`
 
 ###Tests
 For feature and acceptance tests Laravel uses real database with real database connection. 
