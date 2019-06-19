@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
+use Illuminate\Http\Request;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class TransformRequestByRole
@@ -18,8 +19,8 @@ class TransformRequestByRole
     /**
      * We limit this user to be able to edit only his profile, and only to certain fields
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next, $role)
@@ -28,7 +29,7 @@ class TransformRequestByRole
             $user = $request->route('user');
 
             if (Auth::user()->isNot($user)) {
-                throw UnauthorizedException::forRoles($user->role);
+                throw UnauthorizedException::forRoles([$user->role]);
             }
 
             foreach ($this->forbiddenFields as $forbiddenField) {

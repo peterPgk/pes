@@ -85,7 +85,7 @@ class User extends Authenticatable
 			'address' => 'nullable|string|min:3|max:255',
 			'phone' => 'nullable|phone:GB', //TODO: Provide custom country field, ana attach it with address field
 			'email' => 'required|string|email|max:255|unique:users',
-			'employee_id' => 'nullable|unique:users,employee_id|alpha_num',
+			'employee_id' => 'nullable|min:3|unique:users,employee_id|alpha_num',
 			'password' => 'required|min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/|confirmed',
 			'date_of_birth' => 'nullable|date|before:'. Carbon::now()->subYears(10)->toDateString(),
 			'in_probation' => 'sometimes|in:'. implode(',', config('validation.checkbox_allowed_values')),

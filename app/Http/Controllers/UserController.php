@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use DB;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Log;
+use Throwable;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -22,7 +27,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -32,9 +37,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     * @throws \Throwable
+     * @param Request $request
+     * @return Response
+     * @throws Throwable
      */
     public function store(Request $request)
     {
@@ -51,7 +56,7 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(User $user)
     {
@@ -61,16 +66,16 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
      * @param  User $user
-     * @return \Illuminate\Http\Response
-     * @throws \Throwable
+     * @return Response
+     * @throws Throwable
      */
     public function update(Request $request, User $user)
     {
         $new_rules = [
             'email' => 'required|string|email|max:255|unique:users,email,'. $user->id. ',id',
-            'employee_id' => 'nullable|unique:users,employee_id,'. $user->id. ',id',
+            'employee_id' => 'nullable|min:3|unique:users,employee_id,'. $user->id .',id|alpha_num',
             'password' => 'nullable|min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
         ];
 
@@ -83,7 +88,7 @@ class UserController extends Controller
         //Handle checkbox
         $data['in_probation'] = $request->has('in_probation') && $request->get('in_probation');
 
-        $user =  \DB::transaction(function () use ($user, $data) {
+        $user =  DB::transaction(function () use ($user, $data) {
             $user->update($data);
             $user->syncRoles($data['role']);
 
@@ -101,8 +106,8 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  User $user
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @return Response
+     * @throws Exception
      */
     public function destroy(User $user)
     {
@@ -110,9 +115,9 @@ class UserController extends Controller
             $user->delete();
             flash('The '. $user->name . ' was removed successfully')->success();
         }
-        catch(\Exception $e) {
+        catch(Exception $e) {
             flash('There was an error trying to remove '. $user->name)->error();
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
         }
 
         return redirect()->route('users.index');

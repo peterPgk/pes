@@ -8,7 +8,8 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, SnipeMigrations;
+//    use CreatesApplication, SnipeMigrations;
+    use CreatesApplication;
 
     protected $user;
 
