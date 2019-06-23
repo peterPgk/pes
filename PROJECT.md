@@ -17,7 +17,7 @@
     
     for generation of encryption key
 
-###Other info
+###Other requirements
 - Make sure that `storage` and `bootstrap/cache` directories have proper rights and are writable.
 - Project root directory is `public`, so any virtual hosts should point there.
 - To be able to have Code completion and to follow functions in editor, run 
@@ -36,10 +36,17 @@
 ###Extra info
 In order to make things in proper way, I made new migration for changing users table structure instead of editing existing one (which came with Auth functionality).
 
-Limitation for the staff member to be able to edit only particular fields is implemented with `TranformRequestByRole` middleware.
+The limitations  for the staff member:
+ - to be able to edit only particular fields
+ - to be able to edit only their own data
+ 
+ is implemented in `TranformRequestByRole` middleware.
 
 Available Roles are served to the views with help of ViewComposer `(App\Http\Views\Composers\RoleComposer)` `(App\Providers\ViewServiceProvider)`
 
+Available roles are listed in `permission.php` config file in config directory.
+
+For our task we suppose that each user can have only one role. This is the reason to use `hasRole` instead `hasAnyRoles` in several places.
 ###Tests
 For feature and acceptance tests Laravel uses real database with real database connection. 
 Usually, for better performance, this is an `in_memory` `sqlite` database.
@@ -51,7 +58,7 @@ In this file we are overwriting some environment variables to be able to use dif
 
 **This is important, because otherwise we will destroy our real database!!**
 
-I set it up two different type of connections there, one using in_memory `sqlite` database (commented one),
+I set it up two different type of connections there, one using in_memory `sqlite` database (the commented one),
 other will use `mysql` real test database. 
 
 In mysql approach, we need to create new database named `pes_test` (or change name in `.env` file). And depending of current

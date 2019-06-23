@@ -94,10 +94,10 @@ class User extends Authenticatable
 	}
 
     /**
-     * Accessor when we want user role.
+     * Accessor when we want to get user role.
      * Spatie plugin uses names instead of ids, so we need name
      *
-     * We suppose that each user can have only one role
+     * For our task we suppose that each user can have only one role
      *
      * @return string
      */

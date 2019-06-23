@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
+        //Our middleware
         //Add this to have ability to protect routes
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         //We limit this user to be able to edit only his profile, and only to certain fields
